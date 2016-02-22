@@ -39,6 +39,7 @@
     <div class="submit">
       <button id = "add-article" class = "btn btn-success" type = "submit">Добавить статью</button>
     </div>
-    <input id = "sub_id" type="hidden" name = "sub_id">
+    <input type = "hidden" value = "<?=$selected_id?>" name = "category_id">
+    <input id = "sub_id" type="hidden" name = "sub_category_id">
   </form>
 </div>
