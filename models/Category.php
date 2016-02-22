@@ -9,6 +9,15 @@ use yii\base\Model;
 
 class Category extends ActiveRecord
 {
+
+  public function rules()
+  {
+    return [
+      ['name', 'required'],
+      ['name', 'string', 'min'=>3],
+    ];
+  }
+
   public function getSubCategory()
   {
     return $this->hasMany(SubCategory::className(), ['category_id' => 'id']);

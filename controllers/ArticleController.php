@@ -14,11 +14,29 @@ class ArticleController extends  Controller
 
   public $enableCsrfValidation = false;
 
-  public function actionIndex()
+  public function actionIndex($category_id = false, $sub_category_id = false)
   {
-    $data = Article::find()
-    ->with("category", "subCategory")
-    ->all();
+    if ($sub_category_id)
+    {
+      $data = Article::find()
+        ->with("category", "subCategory")
+        ->where("sub_category_id = $sub_category_id")
+        ->all();
+    }
+    elseif ($category_id)
+    {
+      $data = Article::find()
+        ->with("category", "subCategory")
+        ->where("category_id = $category_id")
+        ->all();
+    }
+    else
+    {
+      $data = Article::find()
+        ->with("category", "subCategory")
+        ->all();
+    }
+    
     return $this->render('index', ['data'=>$data]);
   }
 
