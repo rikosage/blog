@@ -35,7 +35,7 @@ class ArticleController extends  Controller
 
     $model = new Article();
     $model->load($_POST, "");
-    $model->short_content = substr($_POST['full_content'], 0, 5);
+    $model->short_content = substr($_POST['full_content'], 0, 200);
     $model->date = date('Y-m-d H:i:s');
     if ($model->save())
     {
@@ -45,6 +45,12 @@ class ArticleController extends  Controller
     {
       print_r($model->errors);
     }
+  }
+
+  public function actionShow($id)
+  {
+    $data = Article::findOne($id);
+    return $this->render('article', ['data'=>$data]);
   }
 
 }

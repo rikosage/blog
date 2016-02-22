@@ -12,8 +12,11 @@ class CategoryController extends Controller
 {
   public function actionIndex()
   {
-   /* $data = Category::findOne($id)
+    $categories = Category::find()
     ->with("subCategory")
-    ->all();*/
+    ->all();
+    echo "<pre>";
+    print_r($categories);
+    echo "</pre>";
   }
 }
