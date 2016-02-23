@@ -87,7 +87,7 @@ class SiteController extends Controller
     $search = strtolower($_POST['search']);
 
     //Регулярное выражение по строке поиска
-    $pattern = "/[$search]/";
+    $pattern = "/$search/";
 
     //Вытаскиваем все существующие статьи
     $articles = Article::find()->all();
@@ -117,5 +117,6 @@ class SiteController extends Controller
     {
       echo "Совпадений не найдено";
     }
+    
   }
 }
