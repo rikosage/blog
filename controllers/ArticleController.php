@@ -13,7 +13,6 @@ use yii\helpers\Url;
 class ArticleController extends  Controller
 {
 
-
   //Отключение валидации
   public $enableCsrfValidation = false;
 
@@ -84,6 +83,7 @@ class ArticleController extends  Controller
     $model->date = date('Y-m-d H:i:s');
     if ($model->save())
     {
+      SiteController::sendEmails($model);
       $this->redirect(Url::to("/"));
     }
     else

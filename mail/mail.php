@@ -7,18 +7,7 @@
   <meta charset="<?= Yii::$app->charset ?>">
   <title>Напоминание</title>
   <style>
-    .task{
-        padding-top: 10px;
-        padding-bottom: 10px;
-        margin-top: 10px;
-        border-radius: 10px;
-        border: 1px solid black;
-        background: #BBFFC4;
-        font-size: 1.3em;
-    }
 
-    .date{
-    }
   </style>
 </head>
 <body>
@@ -26,14 +15,14 @@
 </body>
 </html>
 
-<header><h2>Вы отправляли на почту напоминания о списке активных дел. Вот они:</h2></header>
+<header><h2><?=$user_info->username?>, вы получили обновления блога!</h2></header>
 
-<?php foreach ($data as $task){ ?>
-  <?php if ($task->status) {?>
-    <div class="task">
-    <div class="date"><?php echo $task->date; ?></div>
-      <div class="title"><?php echo $task->title; ?></div>
-      
-    </div>
-  <?php } ?>
-<?php } ?>
+<div class="row">
+  <div class="col-lg-12 text-center title">
+    <h3><?=$data->title?></h3>
+  </div>
+  <div class="col-lg-2 date text-left"><?=$data->date?></div>
+  <div class="col-lg-8 col-lg-offset-2 content">
+    <p><?=$data->full_content?></p>
+  </div>
+</div>
