@@ -43,6 +43,27 @@
   <div class="article-content">
     <div class="col-lg-12 article-title text-center"><h3><?=$data->title?></h3></div>
     <div class="col-lg-12 article-text text-left"><p><?=$data->full_content?></p></div>
+    <div class="comments col-lg-6">
+      <strong>Комментарии</strong>
+      <?php foreach ($data->comments as $comment ): ?>
+        <div class="col-lg-11 text-left"><strong><?=$comment->nickname?></strong></div>
+        <div class="col-lg-1">
+          <a href="<?=Url::to('/comment/remove?id='.$comment->id)?>">
+          <span style = "color: red" class = "glyphicon glyphicon-remove"></span>
+          </a>
+        </div>
+        <div class="col-lg-12 text-left"><?=$comment->content?></div>
+      <?php endforeach ?>
+      <form action="<?=Url::to('/comment/new?id='.$id)?>" method = "post">
+        <div class="new-comment">
+          <input class = "form-control" type="text" name = "nickname" placeholder = "Ваше имя">
+          <textarea class = "form-control" name="content" placeholder = "Текст нового комментария">
+          </textarea>
+          <button type = "submit" class = "btn btn-primary">Отправить</button>
+        </div>
+        
+      </form>
+    </div>
   </div>
   <form action="<?=Url::to('/article/change?id='.$id)?>" method = "post">
     <div class="article-change-content">

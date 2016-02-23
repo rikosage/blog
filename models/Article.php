@@ -26,10 +26,17 @@ class Article extends ActiveRecord
     return $this->hasMany(Category::className(), ['id' => 'category_id']);
   }
 
-   public function getSubCategory()
+  public function getSubCategory()
   {
     return $this->hasMany(SubCategory::className(), ['id' => 'sub_category_id']);
   }
+
+  public function getComments()
+  {
+    return $this->hasMany(Comment::className(), ['article_id' => 'id']);
+  }
+
+
 
   public static function tableName()
   {

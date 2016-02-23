@@ -7,6 +7,7 @@ use yii\web\Controller;
 use app\models\Article;
 use app\models\Category;
 use app\models\SubCategory;
+use app\models\Comment;
 use yii\helpers\Url;
 
 class ArticleController extends  Controller
@@ -60,6 +61,7 @@ class ArticleController extends  Controller
    * @param  integer $selected_id  Айди добавляемой категории
    * @return view
    */
+  
   public function actionNew($selected_id = 1)
   {
     $categories = Category::find()
@@ -94,10 +96,15 @@ class ArticleController extends  Controller
   //Отрисовка view для изменений статьи
   public function actionShow($id, $selected_id = 1)
   {
-    $data = Article::findOne($id);
+    Url::remember();
+    
+    $data = Article::find()
+      ->with("comments")
+      ->where("id = $id")
+      ->one();
     $categories = Category::find()
-    ->with("subCategory")
-    ->all();
+      ->with("subCategory")
+      ->all();
 
     return $this->render('article', ['data'=>$data, 'categories'=>$categories, "selected_id"=>$selected_id, 'id'=>$id]);
   }
