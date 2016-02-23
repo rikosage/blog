@@ -29,4 +29,26 @@ $(document).ready(function(){
       return false;
   });
 
+  $('.screen-lock').click(function(){
+    $(this).hide("fast");
+    $('.subscribe-container').hide("fast");
+  });
+
+  $('#subscribe-link').click(function(){
+    $(".screen-lock").show("fast");
+    $(".subscribe-container").show("fast");
+    $(".subscribe-container").find("#subscribe-form").show();
+    $(".subscribe-container").find("#unsubscribe-form").hide();
+    return false;
+  });
+
+  $('#unsubscribe-link').click(function(){
+    $(".screen-lock").show("fast");
+    $(".subscribe-container").show("fast");
+    $(".subscribe-container").find("#subscribe-form").hide();
+    $(".subscribe-container").find("#unsubscribe-form").show();
+    return false;
+  });
+
+
 });

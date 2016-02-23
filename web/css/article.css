@@ -10,3 +10,25 @@
 .cancel-button{
   display: none;
 }
+
+.screen-lock{
+  position: fixed;
+  width: 2000px;
+  height: 100vh;
+  background: #333;
+  opacity: 0.6;
+  display: none;
+  z-index: 2;
+}
+
+.subscribe-container{
+  position: fixed;
+  top: 150px;
+  left: 300px;
+  height: 200px;
+  width: 70%;
+  background: white;
+  border: 1px solid black;
+  display: none;
+  z-index: 3;
+}

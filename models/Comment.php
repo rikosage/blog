@@ -19,8 +19,6 @@ class Comment extends ActiveRecord
     ];
   }
 
-  
-
   public static function tableName()
   {
     return "comments";
