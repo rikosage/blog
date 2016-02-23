@@ -65,6 +65,7 @@ class ArticleController extends  Controller
     $categories = Category::find()
     ->with("subCategory")
     ->all();
+
     return $this->render('new-article', ['categories' => $categories, 'selected_id' => $selected_id]);
   }
 
@@ -91,10 +92,27 @@ class ArticleController extends  Controller
 
 
   //Отрисовка view для изменений статьи
-  public function actionShow($id)
+  public function actionShow($id, $selected_id = 1)
   {
     $data = Article::findOne($id);
-    return $this->render('article', ['data'=>$data]);
+    $categories = Category::find()
+    ->with("subCategory")
+    ->all();
+
+    return $this->render('article', ['data'=>$data, 'categories'=>$categories, "selected_id"=>$selected_id, 'id'=>$id]);
+  }
+
+  public function actionChange($id)
+  {
+    $model = Article::findOne($id);
+    if ($model->load($_POST, "") && $model->save())
+    {
+      $this->redirect(Url::to("/"));
+    }
+    else
+    {
+      print_r($model->errors);
+    }
   }
 
 }
