@@ -24,10 +24,17 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="col-lg-6 text-left">
+<div class="col-lg-3 text-left">
   <a href="<?=Url::to('/')?>">На главную</a>
 </div>
-<div class="col-lg-6 text-right">
+<div class="search-container col-lg-2">
+  <form action="<?=Url::to('/site/search')?>" method = "post">
+    <label>Поиск</label><br>
+    <input class = "form-control" type="text" name = "search">
+    <button>Искать</button>
+  </form>
+</div>
+<div class="col-lg-7 text-right">
   <a id = "subscribe-link" class = "show-subscribe-container" href="">Подписаться на обновления</a>
 </div>
 <div class="col-lg-6 col-lg-offset-6 text-right">
@@ -37,7 +44,7 @@ AppAsset::register($this);
   <div class="screen-lock"></div>
   <div class="container">
   <div class="subscribe-container">
-  
+
     <form id = "subscribe-form" action="<?=Url::to('/site/subscribe')?>" method = "post">
       <label class = "username">Как к вам обращаться?</label>
       <input class = "form-control username" type="text" name = "username">

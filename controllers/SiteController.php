@@ -72,4 +72,50 @@ class SiteController extends Controller
       echo "Email не найден.";
     }
   }
+
+  /**
+   * Метод поиска. Пришлось написать велосипед, решения из коробки не нашел.
+   * @return view
+   */
+  
+  public function actionSearch()
+  {
+    //В этот массив будут записаны совпадающие статьи
+    $matches = [];
+
+    //Строка поиска
+    $search = strtolower($_POST['search']);
+
+    //Регулярное выражение по строке поиска
+    $pattern = "/[$search]/";
+
+    //Вытаскиваем все существующие статьи
+    $articles = Article::find()->all();
+
+    //Перебираем статьи
+    foreach ($articles as $article)
+    {
+
+      //Если находим совпадения в заголовке или тексте статьи
+      if (preg_match($pattern, strtolower($article->title)) || 
+          preg_match($pattern, strtolower($article->full_content)))
+      {
+
+      //Заносим в массив всю статью
+      array_push($matches, $article);
+      }
+    }
+
+    //Если было найдено хоть что-то
+    if (count($matches) != 0)
+    {
+      //Отрисовываем стандартный view
+      return $this->render('/article/index', ['data' => $matches]);
+    }
+    //Иначе выдаем сообщение
+    else
+    {
+      echo "Совпадений не найдено";
+    }
+  }
 }
