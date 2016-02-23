@@ -97,7 +97,7 @@ class ArticleController extends  Controller
   public function actionShow($id, $selected_id = 1)
   {
     Url::remember();
-    
+
     $data = Article::find()
       ->with("comments")
       ->where("id = $id")
@@ -122,4 +122,19 @@ class ArticleController extends  Controller
     }
   }
 
+  public function actionRemove($id)
+  {
+    $article = Article::findOne($id);
+
+    Comment::deleteAll(['article_id'=>$id]);
+
+    if ($article->delete())
+    {
+      $this->redirect(Url::to("/"));
+    }
+    else
+    {
+      print_r($article->errors);
+    }
+  }
 }

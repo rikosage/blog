@@ -22,4 +22,11 @@ $(document).ready(function(){
     document.location.reload();
   });
 
+  $('.delete-article-button').click(function(){
+    if(confirm("Вы уверены? Операция необратима. Все комментарии и данные будут утрачены!"))
+      return true;
+    else
+      return false;
+  });
+
 });
