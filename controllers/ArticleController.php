@@ -81,9 +81,14 @@ class ArticleController extends  Controller
     //Обрезаем весь текст до 200 символа для превью статьи
     $model->short_content = substr($_POST['full_content'], 0, 200);
     $model->date = date('Y-m-d H:i:s');
+
+    //Если сохранение прошло успешно
     if ($model->save())
     {
+      //Отправляем уведомления подписавшимся юзерам
       SiteController::sendEmails($model);
+
+      //И возвращаем в корень сайта
       $this->redirect(Url::to("/"));
     }
     else
