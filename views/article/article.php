@@ -87,6 +87,7 @@
   </div>
    <div class="col-lg-3">
     <button class = "btn btn-primary form-control change-article-button">Изменить</button>
+    <button class="btn btn-danger form-control cancel-button">Отменить</button>
     <button class = "btn btn-danger form-control delete-article-button">Удалить статью</button>
   </div>
 

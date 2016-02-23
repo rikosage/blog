@@ -14,22 +14,31 @@ class CommentController extends Controller
   public function actionNew($id)
   {
 
-    $model = new Comment;
-    $model->article_id = $id;
+    $comment = new Comment;
+    $comment->article_id = $id;
 
-    if($model->load($_POST, "") && $model->save())
+    if($comment->load($_POST, "") && $comment->save())
     {
       $this->redirect(Url::previous());
     }
     else
     {
-      print_r($model->errors);
+      print_r($comment->errors);
     }
   }
 
   public function actionRemove($id)
   {
-    echo $id;
+    $comment = Comment::findOne($id);
+
+    if ($comment->delete())
+    {
+      $this->redirect(Url::previous());
+    }
+    else
+    {
+      print_r($comment->errors);
+    }
   }
 
 
