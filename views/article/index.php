@@ -6,14 +6,14 @@
   <a href="<?=Url::to('/category')?>">Просмотр категорий</a>
   <?php foreach ($data as $article): ?>
     <div class="col-lg-12 article">
-      <div class="col-lg-12 category">
+      <div class="col-lg-6 category">
       <label>Категории:</label>
       <?php if (isset($article->category[0]->id)): ?>
         <a href="<?=Url::to('/article/index?category_id='.$article->category[0]->id)?>">
           <?=$article->category[0]->name?>
         </a>
       <?php else: ?>
-        <p class = "bg-danger">Категория не установлена</p>
+        <span class = "bg-danger">Не установлены</span>
       <?php endif ?>
       <?php if (isset($article->subCategory[0]->id)): ?>
         <a href="<?=Url::to('/article/index?sub_category_id='.$article->subCategory[0]->id)?>"><?=$article->subCategory[0]->name?>
@@ -21,6 +21,15 @@
       <?php endif ?>
       
       </div> 
+      <div class="col-lg-6 text-right">
+      <label>Теги:</label>
+        <?php if (!$article->tags): ?>
+          <span class = "bg-danger">Отсутствуют</span>
+        <?php endif ?>
+          <?php foreach ($article->tags as $tag): ?>
+            <a href = "<?=Url::to('/article/index?tag_id='.$tag->id)?>"><?=$tag->name?></a>
+          <?php endforeach ?> 
+        </div> 
       <div class="content">
         <div class="col-lg-12 text-center">
           <h3>
@@ -30,11 +39,7 @@
         <div class="col-lg-12 text-left"><?=$article->short_content?>...
           <a href="<?=Url::to('/article/show/?id='.$article->id)?>">Открыть</a>
         </div>
-        <div class="col-lg-6 col-lg-offset-6 text-right">
-          <?php foreach ($article->tags as $tag): ?>
-            <a href = "<?=Url::to('/article/index?tag_id='.$tag->id)?>"><?=$tag->name?></a>
-          <?php endforeach ?> 
-        </div> 
+        
       </div>
     </div>
   <?php endforeach ?>

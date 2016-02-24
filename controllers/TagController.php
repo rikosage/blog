@@ -19,7 +19,7 @@ class TagController extends Controller
   public function actionSet()
   {
     $article_id = $_POST["article_id"];
-
+    $result = true;
     foreach ($_POST['tag_id'] as $tag_id)
     {
       $model = ArticleToTag::find()
@@ -30,12 +30,11 @@ class TagController extends Controller
         $new = new ArticleToTag;
         $new->article_id = $article_id;
         $new->tag_id = $tag_id;
-        if ($new->save())
-        {
-          return $this->redirect(Url::previous());
-        }
+        $new->save();
       }
+        
     }
+      return $this->redirect(Url::previous());
   }
 
   public function actionUnset($article_id, $tag_id)

@@ -46,19 +46,27 @@ class ArticleController extends  Controller
     }
 
     //Если пришел какой либо тег, делаем выборку по тегу.
+    //Тут забит костыль, но крепкий. 
+    //Подробный комментарий:
     elseif ($tag_id)
     {
+      //Вспомогательный массив, в который будут сложены айдишники
+      //статей, которым соответствует прилетевший в гет-запросе тег.
       $article_ids = [];
 
+      //Ищем все теги, айди которых соотвествует прилетевшему
       $model = ArticleToTag::find()
         ->where("tag_id = $tag_id")
         ->all();
 
+      //Перебираем их
       foreach ($model as $tag)
       {
+        //И заносим айди статей, соответствующих тегу во вспомогательный массив
         array_push($article_ids, $tag->article_id);
       }
 
+      //Ищем все статьи по получившимся айди
       $data = Article::findAll($article_ids);
     }
 
@@ -97,8 +105,9 @@ class ArticleController extends  Controller
     $model = new Article();
     $model->load($_POST, "");
 
-    //Обрезаем весь текст до 500 символа для превью статьи
-    $model->short_content = substr($_POST['full_content'], 0, Yii::$app->params['short_content_length']);
+    //Обрезаем весь текст до определенного символа для превью статьи
+    $model->short_content = substr($_POST['full_content'], 0, 
+      Yii::$app->params['short_content_length']);
     $model->date = date('Y-m-d H:i:s');
 
     //Если сохранение прошло успешно
@@ -137,7 +146,8 @@ class ArticleController extends  Controller
   public function actionChange($id)
   {
     $model = Article::findOne($id);
-    $model->short_content = substr($_POST["short_content"], 0, Yii::$app->params['short_content_length']);
+    $model->short_content = substr($_POST["full_content"], 0, 
+      Yii::$app->params['short_content_length']);
     if ($model->load($_POST, "") && $model->save())
     {
       $this->redirect(Url::to("/"));
