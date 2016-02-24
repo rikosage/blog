@@ -98,7 +98,7 @@ class ArticleController extends  Controller
     $model->load($_POST, "");
 
     //Обрезаем весь текст до 500 символа для превью статьи
-    $model->short_content = substr($_POST['full_content'], 0, 500);
+    $model->short_content = substr($_POST['full_content'], 0, Yii::$app->params['short_content_length']);
     $model->date = date('Y-m-d H:i:s');
 
     //Если сохранение прошло успешно
@@ -137,6 +137,7 @@ class ArticleController extends  Controller
   public function actionChange($id)
   {
     $model = Article::findOne($id);
+    $model->short_content = substr($_POST["short_content"], 0, Yii::$app->params['short_content_length']);
     if ($model->load($_POST, "") && $model->save())
     {
       $this->redirect(Url::to("/"));
