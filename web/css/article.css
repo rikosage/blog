@@ -1,6 +1,8 @@
 .article{
+  padding-top: 20px;
   border: 1px solid black;
   margin-top: 10px;
+  padding-bottom: 20px;
 }
 
 .article-change-content{

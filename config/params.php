@@ -2,5 +2,5 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'short_content_length' => 550,
+    'short_content_length' => 700,
 ];

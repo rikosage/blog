@@ -82,8 +82,18 @@ class ArticleController extends  Controller
    * @return view
    */
   
-  public function actionNew($selected_id = 1)
+  public function actionNew($selected_id = false)
   {
+
+    //Если страница открывается впервые
+    if ($selected_id == false):
+
+      //Выбираем самую первую категорию
+      $Category = Category::find()->with("subCategory")->one();
+      $selected_id = $Category->id;
+
+    endif;
+
     $categories = Category::find()
     ->with("subCategory")
     ->all();
@@ -131,16 +141,25 @@ class ArticleController extends  Controller
    * @param  integer $selected_id Вспомогательный id выбранной категории
    * @return view
    */
-  public function actionShow($id, $selected_id = 1)
+  public function actionShow($id, $selected_id = false)
   {
     //Запоминаем URL каждый раз при попадании на данный маршрут
     Url::remember();
 
+    //Если страница открывается впервые
+    if ($selected_id == false):
+
+      //Выбираем самую первую категорию
+      $Category = Category::find()->with("subCategory")->one();
+      $selected_id = $Category->id;
+
+    endif;
+    
     /**
      * $data хранит в себе выбранную статью со всеми комментариями
      * @var obj
      */
-    
+
     $data = Article::find()
       ->with("comments")
       ->where("id = $id")

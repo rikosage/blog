@@ -33,43 +33,50 @@ class TagController extends Controller
     //Получаем id статьи, к которой добавим теги
     $article_id = $_POST["article_id"];
 
-    //Перебираем все пришедшие теги, который полагается соотнести со статьей
-    foreach ($_POST['tag_id'] as $tag_id):
+    if (isset($_POST['tag_id'])):
+      //Перебираем все пришедшие теги, который полагается соотнести со статьей
+      foreach ($_POST['tag_id'] as $tag_id):
 
-      //Делаем выборку из сводной таблицы, где id статьи и тега совпадают
+        //Делаем выборку из сводной таблицы, где id статьи и тега совпадают
 
-      $model = ArticleToTag::find()
-        ->where("article_id = $article_id AND tag_id = $tag_id")
-        ->all();
+        $model = ArticleToTag::find()
+          ->where("article_id = $article_id AND tag_id = $tag_id")
+          ->all();
 
-      //Если подобное отношение уже есть - игнорируем.
-      //В самой бд id тега и статьи установлены как составной ключ
-      //Если же совпадений не найдено
+        //Если подобное отношение уже есть - игнорируем.
+        //В самой бд id тега и статьи установлены как составной ключ
+        //Если же совпадений не найдено
 
-      if (!$model):
+        if (!$model):
 
-        //Создаем новую запись
+          //Создаем новую запись
 
-        $new = new ArticleToTag;
-        $new->article_id = $article_id;
-        $new->tag_id = $tag_id;
+          $new = new ArticleToTag;
+          $new->article_id = $article_id;
+          $new->tag_id = $tag_id;
 
-        //Если новое отношение сохранено
-        
-        if ($new->save()):
+          //Если новое отношение сохранено
+          
+          if ($new->save()):
 
-          //Уведомляем об успехе
-          Yii::$app->session->setFlash('success', "Теги обновлены");
-        else:
+            //Уведомляем об успехе
+            Yii::$app->session->setFlash('success', "Теги обновлены");
+          else:
 
-          //Иначе выводим лог ошибок
-          Yii::$app->session->setFlash('errors', $new->errors);
+            //Иначе выводим лог ошибок
+            Yii::$app->session->setFlash('errors', $new->errors);
+
+          endif;
 
         endif;
+          
+      endforeach;
 
-      endif;
-        
-    endforeach;
+    //Если не был выбран ни один тег
+    else:
+      Yii::$app->session->setFlash('errors', [0=>["Не был выбран ни один тег!"]]);
+    endif;
+
 
     //Возврат на предыдущую страницу
     return $this->redirect(Url::previous());
