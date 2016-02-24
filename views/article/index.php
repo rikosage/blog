@@ -1,7 +1,7 @@
 <?php use yii\helpers\Url; ?>
 <?php $this->title = "Блог" ?>
 
-<div class="col-lg-8 col-lg-offset-2">
+<div class="col-lg-10 col-lg-offset-1">
   <a class = "btn btn-primary" href="<?=Url::to('/article/new')?>">Создать новую статью</a>
   <a href="<?=Url::to('/category')?>">Просмотр категорий</a>
   <?php foreach ($data as $article): ?>

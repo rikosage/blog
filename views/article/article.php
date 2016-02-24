@@ -49,33 +49,12 @@
         <?php endforeach ?>
       <?php endforeach ?>
     </select>
-  </div>
   <div class="article-content">
     <div class="col-lg-12 article-title text-center"><h3><?=$data->title?></h3></div>
     <div class="col-lg-12 article-text text-left"><p><?=$data->full_content?></p></div>
-    
-    <div class="comments col-lg-6">
-      <strong>Комментарии</strong>
-      <?php foreach ($data->comments as $comment ): ?>
-        <div class="col-lg-11 text-left"><strong><?=$comment->nickname?></strong></div>
-        <div class="col-lg-1">
-          <a href="<?=Url::to('/comment/remove?id='.$comment->id)?>">
-          <span style = "color: red" class = "glyphicon glyphicon-remove"></span>
-          </a>
-        </div>
-        <div class="col-lg-12 text-left"><?=$comment->content?></div>
-      <?php endforeach ?>
-      <form action="<?=Url::to('/comment/new?id='.$id)?>" method = "post">
-        <div class="new-comment">
-          <input class = "form-control" type="text" name = "nickname" placeholder = "Ваше имя">
-          <textarea class = "form-control" name="content" placeholder = "Текст нового комментария">
-          </textarea>
-          <button type = "submit" class = "btn btn-primary">Отправить</button>
-        </div>
-        
-      </form>
-    </div>
   </div>
+  </div>
+
   <form action="<?=Url::to('/article/change?id='.$id)?>" method = "post">
     <div class="article-change-content">
       <div class="article-title text-center">
@@ -95,7 +74,30 @@
       <input id = "sub_id" type="hidden" name = "sub_category_id" value = "">
     </div>
   </form>
+  <div class="comments col-lg-6">
+      <strong>Комментарии:</strong><br/><br/>
+      <?php foreach ($data->comments as $comment ): ?>
+        <div class="comment-container col-lg-12">
+          <div class="col-lg-11 text-left"><strong><?=$comment->nickname?></strong></div>
+          <div class="col-lg-1">
+            <a href="<?=Url::to('/comment/remove?id='.$comment->id)?>">
+            <span style = "color: red" class = "glyphicon glyphicon-remove"></span>
+            </a>
+          </div>
+          <div class="col-lg-12 text-left"><?=$comment->content?></div>
+        </div>
+      <?php endforeach ?>
+      <form action="<?=Url::to('/comment/new?id='.$id)?>" method = "post">
+        <div class="new-comment">
+          <input class = "form-control" type="text" name = "nickname" placeholder = "Ваше имя">
+          <textarea class = "form-control" name="content" placeholder = "Текст нового комментария">
+          </textarea>
+          <button type = "submit" class = "btn btn-primary">Отправить</button>
+        </div>   
+      </form>
+    </div>
   </div>
+
    <div class="col-lg-3">
     <button class = "btn btn-primary form-control change-article-button">Изменить</button>
     <button class="btn btn-danger form-control cancel-button">Отменить</button>

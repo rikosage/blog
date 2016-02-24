@@ -13,6 +13,7 @@ $(document).ready(function(){
   $(".change-article-button").click(function(){
     $(this).hide("fast");
     $(".article-content").hide("fast");
+    $(".comments").hide("fast");
     $(".delete-article-button").hide("fast");
     $(".article-change-content").show("fast");
     $(".cancel-button").show("fast");
