@@ -25,6 +25,13 @@
       <div class="col-lg-12 text-left"><?=$article->short_content?>...
         <a href="<?=Url::to('/article/show/?id='.$article->id)?>">Открыть</a>
       </div>
+      <div class="col-lg-6 col-lg-offset-6 text-right">
+        <?php foreach ($article->tags as $tag): ?>
+          <a><?=$tag->name?></a>
+        <?php endforeach ?> 
+      </div>
+      
+      
       
     </div>
   </div>

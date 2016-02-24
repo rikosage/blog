@@ -36,6 +36,11 @@ class Article extends ActiveRecord
     return $this->hasMany(Comment::className(), ['article_id' => 'id']);
   }
 
+  public function getTags()
+  {
+    return $this->hasMany(Tag::className(), ["id" => "tag_id"])
+                ->viaTable("article-to-tag", ["article_id" => "id"]);
+  }
 
 
   public static function tableName()

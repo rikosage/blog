@@ -8,6 +8,7 @@ use app\models\Article;
 use app\models\Category;
 use app\models\SubCategory;
 use app\models\Comment;
+use app\models\Tag;
 use yii\helpers\Url;
 
 class ArticleController extends  Controller
@@ -110,8 +111,9 @@ class ArticleController extends  Controller
     $categories = Category::find()
       ->with("subCategory")
       ->all();
+    $tags = Tag::find()->all();
 
-    return $this->render('article', ['data'=>$data, 'categories'=>$categories, "selected_id"=>$selected_id, 'id'=>$id]);
+    return $this->render('article', ['data'=>$data, 'categories'=>$categories, "selected_id"=>$selected_id, "tags"=>$tags , 'id'=>$id]);
   }
 
   public function actionChange($id)
@@ -141,5 +143,13 @@ class ArticleController extends  Controller
     {
       print_r($article->errors);
     }
+  }
+
+  public function actionTag()
+  {
+    $data = Article::find()->with("tags")->all();
+    echo "<pre>";
+    print_r($data);
+    echo "</pre>";
   }
 }

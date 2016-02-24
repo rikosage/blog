@@ -43,6 +43,14 @@
   <div class="article-content">
     <div class="col-lg-12 article-title text-center"><h3><?=$data->title?></h3></div>
     <div class="col-lg-12 article-text text-left"><p><?=$data->full_content?></p></div>
+    <div class="col-lg-6 col-lg-offset-6 text-right">
+        <?php foreach ($data->tags as $tag): ?>
+          <a><?=$tag->name?></a>
+          <a href="<?=Url::to('/tag/unset?article_id='.$id.'&tag_id='.$tag->id)?>">
+            <span style = "color: red" class = "glyphicon glyphicon-remove"></span>
+          </a>
+        <?php endforeach ?> 
+      </div>
     <div class="comments col-lg-6">
       <strong>Комментарии</strong>
       <?php foreach ($data->comments as $comment ): ?>
@@ -90,5 +98,27 @@
     <button class="btn btn-danger form-control cancel-button">Отменить</button>
     <a href = "<?=Url::to('/article/remove?id='.$id)?>" class = "btn btn-danger form-control delete-article-button">Удалить статью</a>
   </div>
-
+  <div class="col-lg-3 tags-container">
+    <label>Выбранные теги будут добавлены к статье</label>
+    <form action="<?=Url::to('/tag/new')?>" method = "post">
+            <input class = "col-lg-6" type="text" name = "name" placeholder="Новый тег">
+            <button class = "btn btn-default">Добавить</button>
+          </form>
+    <form action="<?=Url::to('/tag/set')?>" method = "post">
+      <div>
+        <?php for($i = 0; $i < count($tags); $i++): ?>
+              <input type="checkbox" name = "tag_id[<?=$i?>]" value = "<?=$tags[$i]->id?>">
+              <?=$tags[$i]->name?>
+              <a href="<?=Url::to('/tag/remove?id='.$tags[$i]->id)?>">
+                <span style = "color: red" class = "glyphicon glyphicon-remove"></span>
+              </a>
+              <br/>
+        <?php endfor; ?>
+        <input type="hidden" name = "article_id" value = "<?=$id?>">
+        <button type = "submit" class = "btn btn-default">Установить теги</button>
+      </div>
+    </form>
+    
+  </div>
+ 
 </div>
