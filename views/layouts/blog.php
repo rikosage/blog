@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\Alert;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\helpers\Url;
@@ -34,6 +35,30 @@ AppAsset::register($this);
   <a id = "unsubscribe-link" class = "show-subscribe-container" href="">Отписаться от обновлений</a>
 </div>
 <div class="wrap">
+  <?php  
+  if (Yii::$app->session->hasFlash('errors'))
+  {
+    foreach (Yii::$app->session->getFlash('errors') as $error)
+    {
+      echo Alert::widget([
+      'options' => [
+          'class' => 'alert-danger'
+      ],
+      'body' => $error[0]
+      ]);
+    }
+  }
+  
+  if (Yii::$app->session->hasFlash('success'))
+  {
+    echo Alert::widget([
+      'options' => [
+          'class' => 'alert-success'
+      ],
+      'body' => Yii::$app->session->getFlash('success')
+      ]);
+  }
+?>
   <div class="screen-lock"></div>
   <div class="search-container col-lg-2">
   <form action="<?=Url::to('/site/search')?>" method = "post">

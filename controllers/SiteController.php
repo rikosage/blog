@@ -11,69 +11,106 @@ use yii\helpers\Url;
 /**
  * Контроллер общих функций сайта
  */
+
 class SiteController extends Controller
 {
+
+  //Отключение CSRF валидации
   public $enableCsrfValidation = false;
 
+  /**
+   * Рассылает письма всем подписавшимся юзерам
+   * Функция статическая, и вызывается из ArticleController
+   * @param  obj $data Содержимое статьи 
+   * @return redirect
+   */
+  
   public static function sendEmails($data)
   {
+
+    //Получаем все имейлы
     $emails = Email::find()
       ->all();
 
-    foreach ($emails as $user_info)
-    {
+    foreach ($emails as $user_info):
+
       $mail = Yii::$app->mailer->compose('mail', ['data'=>$data, 'user_info' => $user_info])
               ->setFrom('no-reply@blog.com')
               ->setTo($user_info->email)
               ->setSubject('Обновление в блоге!');
 
-      if ($mail->send())
-      {
-          echo "Письмо отправлено";
-      }
-      else
-      {
-        print_r($mail->errors);
-      }
-    }
+      //Если что-то сломалось, выплевываем ошибку в удобоваримом виде
+      if (!$mail->send()):
+        Yii::$app->session->setFlash('errors', $mail->errors);
+      endif;
+    endforeach;
+
+    $this->redirect(Url::previous());
   }
 
+
+  /**
+   * Когда пользователь подписался на обновления блога
+   * @return redirect
+   */
+  
   public function actionSubscribe()
   {
     $email = new Email;
 
-    if ($email->load($_POST, "") && $email->save())
-    {
-      $this->redirect(Url::previous());
-    }
-    else
-    {
-      print_r($email->errors);
-    }
+    if ($email->load($_POST, "") && $email->save()):
+
+      //Уведомляем об успехе
+      Yii::$app->session->setFlash('success', "Вы подписаны на обновления!");
+
+    else:
+
+      //Иначе выводим лог ошибок
+      Yii::$app->session->setFlash('errors', $email->errors);
+
+    endif;
+
+    $this->redirect(Url::previous());
   }
 
+  /**
+   * Когда пользователь отписывается от обновлений
+   * @return redirect
+   */
+  
   public function actionUnsubscribe()
   {
+    //Определяем имейл, который требуется удалить.
     $email = $_POST['email'];
+
+    //Ищем пользователя
     $result = Email::find()
       ->where("email = '$email'")
       ->one();
 
-    if (isset($result))
-    {
-      if ($result->delete())
-      {
-        $this->redirect(Url::previous());
-      }
-      else
-      {
-        print_r($result->errors);
-      }
-    }
-    else
-    {
-      echo "Email не найден.";
-    }
+    //Если пользователь найден
+    if (isset($result)):
+      //И если имейл удален
+      if ($result->delete()):
+
+      //Уведомляем об успехе
+      Yii::$app->session->setFlash('success', "Вы больше не будете получать обновления");
+
+      else:
+
+      //Иначе выводим лог ошибок
+      Yii::$app->session->setFlash('errors', $result->errors);
+
+      endif;
+    //Если пользователь с таким имейлом не найден
+    else:
+
+      //Выводим лог ошибок
+      Yii::$app->session->setFlash('errors', "Пользователь с таким Email не обнаружен!");
+
+    endif;
+
+    $this->redirect(Url::previous());
   }
 
   /**
@@ -86,40 +123,47 @@ class SiteController extends Controller
     //В этот массив будут записаны совпадающие статьи
     $matches = [];
 
-    //Строка поиска
+    //Строка поиска в нижнем регистре. 
+    //Стоит отметить, что данная функция почему-то 
+    //не действует на кириллицу
     $search = strtolower($_POST['search']);
 
-    //Регулярное выражение по строке поиска
+    //Регулярное выражение по строке поиска.
     $pattern = "/$search/";
 
     //Вытаскиваем все существующие статьи
     $articles = Article::find()->all();
 
     //Перебираем статьи
-    foreach ($articles as $article)
-    {
+    foreach ($articles as $article):
 
       //Если находим совпадения в заголовке или тексте статьи
       if (preg_match($pattern, strtolower($article->title)) || 
-          preg_match($pattern, strtolower($article->full_content)))
-      {
+          preg_match($pattern, strtolower($article->full_content))):
 
       //Заносим в массив всю статью
       array_push($matches, $article);
-      }
-    }
+
+      endif;
+    endforeach;
 
     //Если было найдено хоть что-то
-    if (count($matches) != 0)
-    {
-      //Отрисовываем стандартный view
-      return $this->render('/article/index', ['data' => $matches]);
-    }
-    //Иначе выдаем сообщение
-    else
-    {
-      echo "Совпадений не найдено";
-    }
+    if (count($matches)):
 
+      //Уведомляем об успехе
+      Yii::$app->session->setFlash('success', "Результаты поиска по вашему запросу");
+
+    //Иначе выдаем сообщение
+    else:
+
+      //Иначе выводим лог ошибок
+      Yii::$app->session->setFlash('errors', "Совпадений не найдено!");
+    
+    endif;
+
+    //Отрисовываем стандартный view. В случае ошибки view будет пустой, без статей
+    //Это не сломалось, это так задумано
+    
+    return $this->render('/article/index', ['data' => $matches]);
   }
 }

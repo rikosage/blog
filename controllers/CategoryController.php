@@ -19,12 +19,14 @@ class CategoryController extends Controller
   //Показать все категории
   public function actionIndex()
   {
+    //При попадании на этот маршрут запоминаем URL
     Url::remember();
 
     //Выборка всех категорий с подкатегориями из БД
     $categories = Category::find()
     ->with("subCategory")
     ->all();
+
     return $this->render("index", ['categories'=>$categories]);
   }
 
@@ -35,16 +37,18 @@ class CategoryController extends Controller
     $model = new Category;
 
     //Если загрузка данных из формы и их сохранение прошли успешно
-    if ($model->load($_POST, "") && $model->save())
-    {
-      //Вернуться на предыдущую страницу
-      $this->redirect(Url::previous());
-    }
-    else
-    {
+    if ($model->load($_POST, "") && $model->save()):
+
+      Yii::$app->session->setFlash('success', "Категория добавлена"); 
+
+    else:
+
       //Иначе вывести лог ошибок
-      print_r($model->errors);
-    }
+      Yii::$app->session->setFlash('errors', $model->errors);
+    endif;
+
+    //Вернуться на предыдущую страницу
+      $this->redirect(Url::previous());
   }
 
 
@@ -55,17 +59,20 @@ class CategoryController extends Controller
     $model = new SubCategory;
 
     //Если данные из формы загружены и сохранены
-    if ($model->load($_POST, "") && $model->save())
-    {
+    if ($model->load($_POST, "") && $model->save()):
+      
+      //Уведомление об успехе
+      Yii::$app->session->setFlash('success', "Подкатегория добавлена");
 
-      //Вернуться на предыдущую страницу
-      $this->redirect(Url::previous());
-    }
-    else
-    {
+    else:
+
       //Иначе вывести лог ошибок
-      print_r($model->errors);
-    }
+      Yii::$app->session->setFlash('errors', $model->errors);
+
+    endif;
+
+    //Вернуться на предыдущую страницу
+    $this->redirect(Url::previous());
   }
 
 
@@ -79,18 +86,20 @@ class CategoryController extends Controller
     SubCategory::deleteAll(['category_id'=>$id]);
 
     //Если категория удалилась
-    if ($category->delete())
-    {
+    if ($category->delete()):
 
-      //Переход на предыдущую страницу
-      $this->redirect(Url::previous());
-    }
-    else
-    {
+      //Уведомление об успехе
+      Yii::$app->session->setFlash('success', "Категория удалена");
+
+    else:
 
       //Иначе вывести лог ошибок
-      print_r($category->errors);
-    }
+      Yii::$app->session->setFlash('errors', $model->errors);
+
+    endif;
+
+  //Переход на предыдущую страницу
+    $this->redirect(Url::previous());
   }
 
 
@@ -101,18 +110,19 @@ class CategoryController extends Controller
     //Выбор удаляемой категории из БД
     $subCategory = SubCategory::findOne($id);
 
-    //Если удалена
-    if ($subCategory->delete())
-    {
+    //Если подкатегория удалена
+    if ($subCategory->delete()):
 
-      //Переход на предыдущую страницу
-      $this->redirect(Url::previous());
-    }
-    else
-    {
+      //Уведомление об успехе
+      Yii::$app->session->setFlash('success', "Подкатегория удалена");
+
+    else:
 
       //Иначе вывести лог ошибок
-      print_r($subCategory->errors);
-    }
+      Yii::$app->session->setFlash('errors', $model->errors);
+    endif;
+
+  //Переход на предыдущую страницу
+    $this->redirect(Url::previous());
   }
 }
