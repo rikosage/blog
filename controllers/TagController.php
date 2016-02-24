@@ -9,6 +9,9 @@ use app\models\Tag;
 use app\models\ArticleToTag;
 use yii\helpers\Url;
 
+/**
+ * Контроллер для работы с тегами
+ */
 class TagController extends Controller
 {
   public $enableCsrfValidation = false;

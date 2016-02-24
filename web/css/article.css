@@ -7,6 +7,14 @@
   display: none;
 }
 
+.btn{
+  margin-top: 2px;
+}
+
+.search-container{
+  margin-top: 50px;
+}
+
 .cancel-button{
   display: none;
 }
@@ -31,4 +39,14 @@
   border: 1px solid black;
   display: none;
   z-index: 3;
+}
+
+.tags-container{
+  margin-top: 20px;
+}
+
+.article-show-container{
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
 }

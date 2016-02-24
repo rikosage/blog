@@ -97,8 +97,8 @@ class ArticleController extends  Controller
     $model = new Article();
     $model->load($_POST, "");
 
-    //Обрезаем весь текст до 200 символа для превью статьи
-    $model->short_content = substr($_POST['full_content'], 0, 200);
+    //Обрезаем весь текст до 500 символа для превью статьи
+    $model->short_content = substr($_POST['full_content'], 0, 500);
     $model->date = date('Y-m-d H:i:s');
 
     //Если сохранение прошло успешно

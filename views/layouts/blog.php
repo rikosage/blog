@@ -43,20 +43,24 @@ AppAsset::register($this);
   </form>
 </div>
   <div class="container">
-  <div class="subscribe-container">
+  <div class="subscribe-container text-center">
 
     <form id = "subscribe-form" action="<?=Url::to('/site/subscribe')?>" method = "post">
-      <label class = "username">Как к вам обращаться?</label>
-      <input class = "form-control username" type="text" name = "username">
-      <label class = "email">Введите Email, на который хотите получать обновления.</label>
-      <input class = "form-control email" type="text" name = "email">
-      <button class = "btn btn-success">Подтвердить</button>
+      <label class = "username">Как к вам обращаться?</label><br/>
+      <input class = "col-lg-6 col-lg-offset-3 username" type="text" name = "username">
+      <label class = "email">Введите Email, на который хотите получать обновления.</label><br/>
+      <input class = "col-lg-6 col-lg-offset-3 email" type="text" name = "email"><br/>
+      <div class="col-lg-12 text-center">
+        <button class = "btn btn-success">Подтвердить</button>
+      </div>
     </form>
 
     <form id = "unsubscribe-form" action="<?=Url::to('/site/unsubscribe')?>" method = "post">
-      <label class = "email">Введите Email, на который приходят неугодные обновления</label>
-      <input class = "form-control email" type="text" name = "email">
-      <button class = "btn btn-danger">Подтвердить</button>
+      <label class = "email">Введите Email, на который приходят неугодные обновления</label><br/>
+      <input class = "col-lg-6 col-lg-offset-3 email" type="text" name = "email">
+      <div class="col-lg-12 text-center">
+        <button class = "btn btn-danger">Подтвердить</button>
+      </div>
     </form>
   </div>
       <?= Breadcrumbs::widget([

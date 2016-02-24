@@ -2,7 +2,7 @@
 <?php $this->title = "Статья: ".$data->title ?>
 
 <div class="row">
-  <div class="col-lg-9">
+  <div class="col-lg-9 article-show-container">
     <div class="col-lg-12 article-category text-left">
       <?php if (isset($data->category[0]->id)): ?>
         <a href="<?=Url::to('/article/index?category_id='.$data->category[0]->id)?>">

@@ -8,6 +8,9 @@ use app\models\Article;
 use app\models\Email;
 use yii\helpers\Url;
 
+/**
+ * Контроллер общих функций сайта
+ */
 class SiteController extends Controller
 {
   public $enableCsrfValidation = false;
