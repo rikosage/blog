@@ -45,7 +45,7 @@
     <div class="col-lg-12 article-text text-left"><p><?=$data->full_content?></p></div>
     <div class="col-lg-6 col-lg-offset-6 text-right">
         <?php foreach ($data->tags as $tag): ?>
-          <a><?=$tag->name?></a>
+          <a href = "<?=Url::to('/article/index?tag_id='.$tag->id)?>"><?=$tag->name?></a>
           <a href="<?=Url::to('/tag/unset?article_id='.$id.'&tag_id='.$tag->id)?>">
             <span style = "color: red" class = "glyphicon glyphicon-remove"></span>
           </a>

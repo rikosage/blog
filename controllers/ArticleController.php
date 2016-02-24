@@ -9,6 +9,7 @@ use app\models\Category;
 use app\models\SubCategory;
 use app\models\Comment;
 use app\models\Tag;
+use app\models\ArticleToTag;
 use yii\helpers\Url;
 
 class ArticleController extends  Controller
@@ -24,7 +25,7 @@ class ArticleController extends  Controller
    * @param  integer $sub_category_id  Подкатегория из get - запроса
    * @return view
    */
-  public function actionIndex($category_id = false, $sub_category_id = false)
+  public function actionIndex($category_id = false, $sub_category_id = false, $tag_id = false)
   {
     //Если в гет-запроса пришла подкатегория, делаем выборку по ней
     if ($sub_category_id)
@@ -44,6 +45,23 @@ class ArticleController extends  Controller
         ->all();
     }
 
+    //Если пришел какой либо тег, делаем выборку по тегу.
+    elseif ($tag_id)
+    {
+      $article_ids = [];
+
+      $model = ArticleToTag::find()
+        ->where("tag_id = $tag_id")
+        ->all();
+
+      foreach ($model as $tag)
+      {
+        array_push($article_ids, $tag->article_id);
+      }
+
+      $data = Article::findAll($article_ids);
+    }
+
     //Если гет-запрос пустой, выводим все статьи
     else
     {
@@ -53,7 +71,7 @@ class ArticleController extends  Controller
     }
     
     //Отрисовываем view
-    return $this->render('index', ['data'=>$data]);
+     return $this->render('index', ['data'=>$data]);
   }
 
   /**

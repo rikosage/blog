@@ -27,7 +27,7 @@
       </div>
       <div class="col-lg-6 col-lg-offset-6 text-right">
         <?php foreach ($article->tags as $tag): ?>
-          <a><?=$tag->name?></a>
+          <a href = "<?=Url::to('/article/index?tag_id='.$tag->id)?>"><?=$tag->name?></a>
         <?php endforeach ?> 
       </div>
       
