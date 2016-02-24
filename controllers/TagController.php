@@ -126,7 +126,6 @@ class TagController extends Controller
    * Создает новый тег
    * @return redirect
    */
-  
 
   public function actionNew()
   {

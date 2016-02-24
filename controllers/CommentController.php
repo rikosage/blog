@@ -43,7 +43,7 @@ class CommentController extends Controller
     endif;
 
     //Возврат на предыдущую страницу
-    $this->redirect(Url::previous());
+    return $this->redirect(Url::previous());
   }
 
 
@@ -72,7 +72,7 @@ class CommentController extends Controller
     endif;
 
     //Возврат на предыдущую страницу
-    $this->redirect(Url::previous());
+    return $this->redirect(Url::previous());
   }
 
 

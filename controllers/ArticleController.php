@@ -25,6 +25,7 @@ class ArticleController extends  Controller
    * @param  integer $sub_category_id  Подкатегория из get - запроса
    * @return view
    */
+  
   public function actionIndex($category_id = false, $sub_category_id = false, $tag_id = false)
   {
     //Если в гет-запроса пришла подкатегория, делаем выборку по ней
@@ -45,6 +46,7 @@ class ArticleController extends  Controller
     //Тут забит костыль, но крепкий. 
     //Подробный комментарий:
     elseif ($tag_id):
+
       //Вспомогательный массив, в который будут сложены айдишники
       //статей, которым соответствует прилетевший в гет-запросе тег.
       $article_ids = [];
@@ -119,7 +121,7 @@ class ArticleController extends  Controller
 
     endif;
     //Возвращаем в корень сайта
-    $this->redirect(Url::to("/"));
+    return $this->redirect(Url::to("/"));
   }
 
 
@@ -172,6 +174,7 @@ class ArticleController extends  Controller
    * @param  integer $id Идентификатор изменяемой статьи
    * @return redirect
    */
+  
   public function actionChange($id)
   {
     $model = Article::findOne($id);
@@ -190,20 +193,31 @@ class ArticleController extends  Controller
       Yii::$app->session->setFlash('errors', $model->errors);
 
     endif;
-    $this->redirect(Url::to("/"));
+    
+    return $this->redirect(Url::to("/"));
   }
 
   public function actionRemove($id)
   {
+
     $article = Article::findOne($id);
 
     Comment::deleteAll(['article_id'=>$id]);
 
+    //Если статья удалена
     if ($article->delete()):
+
+      //Уведомляем об успехе
       Yii::$app->session->setFlash('success', "Статья удалена");
+
     else:
+
+      //Иначе выводим лог ошибок
       Yii::$app->session->setFlash('errors', $article->errors);
+
     endif;
-    $this->redirect(Url::to("/"));
+
+    //Возвращаем на предыдущую страницу
+    return $this->redirect(Url::to("/"));
   }
 }

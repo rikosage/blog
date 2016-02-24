@@ -48,7 +48,7 @@ class CategoryController extends Controller
     endif;
 
     //Вернуться на предыдущую страницу
-      $this->redirect(Url::previous());
+    return $this->redirect(Url::previous());
   }
 
 
@@ -72,7 +72,7 @@ class CategoryController extends Controller
     endif;
 
     //Вернуться на предыдущую страницу
-    $this->redirect(Url::previous());
+    return $this->redirect(Url::previous());
   }
 
 
@@ -98,8 +98,8 @@ class CategoryController extends Controller
 
     endif;
 
-  //Переход на предыдущую страницу
-    $this->redirect(Url::previous());
+    //Переход на предыдущую страницу
+    return $this->redirect(Url::previous());
   }
 
 
@@ -122,7 +122,7 @@ class CategoryController extends Controller
       Yii::$app->session->setFlash('errors', $model->errors);
     endif;
 
-  //Переход на предыдущую страницу
-    $this->redirect(Url::previous());
+    //Переход на предыдущую страницу
+    return $this->redirect(Url::previous());
   }
 }

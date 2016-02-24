@@ -16,7 +16,8 @@ class Email extends ActiveRecord
       ['username', 'string', 'min'=>3],
       ['email', 'required'],
       //Регулярка для проверки правильности Email. Штатного валидатора не нашел
-      ['email', 'match', 'pattern' => '/[\w\d]{3,}[@][a-z]{2,}[.][a-z]{2,6}/'],
+      ['email', 'match', 'pattern' => '/^[\w\d]{3,}[@][a-z]{2,}[.][a-z]{2,6}$/'],
+      ['email', 'unique', 'message' => "Вы уже подписаны на обновления!"],
     ];
   }
 

@@ -2,6 +2,11 @@
 <?php $this->title = "Блог" ?>
 
 <div class="col-lg-10 col-lg-offset-1">
+<?php if (!$data): ?>
+  <div class = "text-center">
+    <h1>Совпадений не найдено!</h1>
+  </div>
+<?php else: ?>
   <a class = "btn btn-primary" href="<?=Url::to('/article/new')?>">Создать новую статью</a>
   <a href="<?=Url::to('/category')?>">Просмотр категорий</a>
   <?php foreach ($data as $article): ?>
@@ -43,4 +48,5 @@
       </div>
     </div>
   <?php endforeach ?>
+<?php endif; ?>
 </div>

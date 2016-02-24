@@ -21,8 +21,12 @@ class SiteController extends Controller
   /**
    * Рассылает письма всем подписавшимся юзерам
    * Функция статическая, и вызывается из ArticleController
+   *
+   * ВНИМАНИЕ! КЛАСС НЕ НАСТРОЕН! 
+   * СЕЙЧАС ПИСЬМА РАБОТАЮТ В ТЕСТОВОМ РЕЖИМЕ, СОХРАНЯЯСЬ ЛОКАЛЬНО!
+   * 
    * @param  obj $data Содержимое статьи 
-   * @return redirect
+   * @return none
    */
   
   public static function sendEmails($data)
@@ -44,8 +48,6 @@ class SiteController extends Controller
         Yii::$app->session->setFlash('errors', $mail->errors);
       endif;
     endforeach;
-
-    $this->redirect(Url::previous());
   }
 
 
@@ -70,7 +72,8 @@ class SiteController extends Controller
 
     endif;
 
-    $this->redirect(Url::previous());
+    $this->redirect(Url::to("/"));
+
   }
 
   /**
@@ -94,7 +97,7 @@ class SiteController extends Controller
       if ($result->delete()):
 
       //Уведомляем об успехе
-      Yii::$app->session->setFlash('success', "Вы больше не будете получать обновления");
+      Yii::$app->session->setFlash('success', "Вы больше не будете получать сообщения");
 
       else:
 
@@ -106,11 +109,11 @@ class SiteController extends Controller
     else:
 
       //Выводим лог ошибок
-      Yii::$app->session->setFlash('errors', "Пользователь с таким Email не обнаружен!");
+      Yii::$app->session->setFlash('errors', [0=>["Пользователь с таким Email не обнаружен!"]]);
 
     endif;
 
-    $this->redirect(Url::previous());
+    $this->redirect(Url::to("/"));
   }
 
   /**
@@ -157,7 +160,7 @@ class SiteController extends Controller
     else:
 
       //Иначе выводим лог ошибок
-      Yii::$app->session->setFlash('errors', "Совпадений не найдено!");
+      Yii::$app->session->setFlash('errors', [0=>["Совпадений не найдено!"]]);
     
     endif;
 

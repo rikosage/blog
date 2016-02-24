@@ -20,6 +20,9 @@
   </div>
   <div class="col-lg-6 text-right">
   <label>Тэги:</label>
+    <?php if (!$data->tags): ?>
+          <span class = "bg-danger">Отсутствуют</span>
+        <?php endif ?>
     <?php foreach ($data->tags as $tag): ?>
       <a href = "<?=Url::to('/article/index?tag_id='.$tag->id)?>"><?=$tag->name?></a>
       <a href="<?=Url::to('/tag/unset?article_id='.$id.'&tag_id='.$tag->id)?>">
@@ -55,7 +58,7 @@
   </div>
   </div>
 
-  <form action="<?=Url::to('/article/change?id='.$id)?>" method = "post">
+  <form id = "article-change" action="<?=Url::to('/article/change?id='.$id)?>" method = "post">
     <div class="article-change-content">
       <div class="article-title text-center">
         <input class = "form-control text-center" 
